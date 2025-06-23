@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 
 class TaskPage extends StatelessWidget {
   const TaskPage({super.key});
 
-  //  Styled Task Card Widget
   Widget buildTaskItem(BuildContext context, String title, String description) {
-    return Card(color: Colors.white,
+    return Card(color: AppColors.white,
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: AppPadding.screenPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -21,7 +21,7 @@ class TaskPage extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: Colors.green,
+                color: AppColors.green,
               ),
             ),
             const SizedBox(height: 10),
@@ -29,7 +29,7 @@ class TaskPage extends StatelessWidget {
               description,
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black87,
+                color: AppColors.black,
                 height: 1.4,
               ),
             ),
@@ -41,13 +41,13 @@ class TaskPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 5,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.blue,
+                  color:AppColors.blue,
                 ),
                 child: const Center(
                   child: Text(
                     "Start",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/controller/auth_service.dart';
 import 'package:ziya_inter_project/view/Bottom_navigation.dart';
 import 'package:ziya_inter_project/view/ForgotPassword.dart';
@@ -76,9 +77,9 @@ class _LoginState extends State<Login> {
                 child: Text('Login'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 24, 123, 194),
-                  foregroundColor: Colors.white,
+                  foregroundColor: AppColors.white,  
                   textStyle: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: 10,
                     fontStyle: FontStyle.normal,
                   ),
@@ -120,7 +121,7 @@ class _LoginState extends State<Login> {
                     },
                     child: Text(
                       "Sign up",
-                      style: TextStyle(color: Colors.green, fontSize: 16),
+                      style: TextStyle(color:AppColors.green, fontSize: 16),
                     ))
               ],
             )
@@ -155,7 +156,7 @@ class _LoginState extends State<Login> {
 
   void showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red),
+      SnackBar(content: Text(message), backgroundColor: AppColors.red),
     );
   }
 }

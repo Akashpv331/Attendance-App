@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 
 class OngoingTaskListScreen extends StatelessWidget {
   const OngoingTaskListScreen({super.key});
@@ -13,7 +14,7 @@ class OngoingTaskListScreen extends StatelessWidget {
     String priority,
     Color color,
   ) {
-    return Card(color: Colors.white,
+    return Card(color: AppColors.white,
       elevation: 3,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -26,26 +27,26 @@ class OngoingTaskListScreen extends StatelessWidget {
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: Colors.green)),
+                    color: AppColors.green)),
             const SizedBox(height: 8),
             Row(
               children: [
                 const Text("Status: "),
-                Text(status, style: const TextStyle(color: Colors.blue)),
+                Text(status, style: const TextStyle(color:AppColors.blue)),
               ],
             ),
             const SizedBox(height: 4),
             Row(
               children: [
                 const Text("Assigned date: "),
-                Text(startDate, style: const TextStyle(color: Colors.grey)),
+                Text(startDate, style: const TextStyle(color:AppColors.grey)),
               ],
             ),
             const SizedBox(height: 4),
             Row(
               children: [
                 const Text("Due date: "),
-                Text(endDate, style: const TextStyle(color: Colors.grey)),
+                Text(endDate, style: const TextStyle(color:AppColors.grey)),
               ],
             ),
             const SizedBox(height: 8),
@@ -63,12 +64,12 @@ class OngoingTaskListScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 3.5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.blue,
+                    color:AppColors.blue,
                   ),
                   child: const Center(
                     child: Text(
                       "Mark as Done",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: AppColors.white),
                     ),
                   ),
                 ),
@@ -93,7 +94,7 @@ class OngoingTaskListScreen extends StatelessWidget {
             "12-06-2025",
             "12-08-2025",
             "High",
-            Colors.red,
+          AppColors.red
           ),
           buildOngoingTask(
             context,
@@ -102,7 +103,7 @@ class OngoingTaskListScreen extends StatelessWidget {
             "12-06-2025",
             "18-06-2025",
             "Medium",
-            Colors.orangeAccent,
+           AppColors.orangeAccent,
           ),
         ],
       ),

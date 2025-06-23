@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/view/Login.dart';
 
 
@@ -53,7 +54,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: Colors.blue,
+        backgroundColor:  AppColors.blue,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -108,9 +109,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     child: Text('Sign Up'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 24, 123, 194),
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColors.white,
                       textStyle: const TextStyle(
-                        color: Colors.white,
+                        color: AppColors.white,
                         fontSize: 10,
                         fontStyle: FontStyle.normal,
                       ),
@@ -131,7 +132,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         },
                         child: Text(
                           "Login",
-                          style: TextStyle(color: Colors.green, fontSize: 16),
+                          style: TextStyle(color: AppColors.green, fontSize: 16),
                         ))
               ],
             ),

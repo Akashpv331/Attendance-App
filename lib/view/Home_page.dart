@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
+import 'package:ziya_inter_project/view/Attendance_page.dart';
 import 'package:ziya_inter_project/view/Leave%20_application.dart';
 import 'package:ziya_inter_project/view/My_task.dart';
 import 'package:ziya_inter_project/view/face_verification_onsite.dart';
@@ -16,11 +18,13 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  late TabController _tabController;
   // overview widget
   Widget buildOverviewCard(String title, String subtitle, Color color) {
     return Expanded(
-      child: Card(color: Colors.white,
+      child: Card(
+        color: Colors.white,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -59,11 +63,37 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+// shared str value checkin fnc
+  void loadchekinTime() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      checkInTime = prefs.getString("check in time");
+    });
+  }
+
+  String? checkInTime; // shared string
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadchekinTime();
+    _tabController = TabController(length: tabs.length, vsync: this);
+  }
+
+// tabbar
+  final List<Map<String, dynamic>> tabs = [
+    {'icon': Icons.calendar_month, 'label': 'My Tasks'},
+    {'icon': Icons.hourglass_empty, 'label': 'Task Tracker'},
+    {'icon': Icons.rotate_right_outlined, 'label': 'Ongoing & pending'},
+    {'icon': Icons.work, 'label': 'Summary'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(12),
@@ -81,7 +111,10 @@ class _HomePageState extends State<HomePage> {
                         height: MediaQuery.of(context).size.height / 13,
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color.fromARGB(255, 167, 239, 119),Color(0xFF0A4D1F), ],
+                            colors: [
+                              AppColors.appbarbg1,
+                              AppColors.appbarbg2,
+                            ],
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -106,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                                   Text(
                                     'Hemant Rangarajan',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -134,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                             width: 45,
                             height: 45,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: AppColors.white,
                               border: Border.all(color: Colors.green, width: 2),
                               shape: BoxShape.circle,
                               boxShadow: [
@@ -147,7 +180,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: CircleAvatar(
                               radius: 20,
-                              backgroundImage: AssetImage("assets/logo_ziya.jpg"),
+                              backgroundImage:
+                                  AssetImage("assets/logo_ziya.jpg"),
                             )),
                       ),
                     ],
@@ -160,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: Colors.lightBlue,
                     child: Icon(
                       Icons.notifications,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   )
                 ],
@@ -172,12 +206,12 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey)),
+                      color: AppColors.grey)),
               SizedBox(height: 15),
 
               // Check-in / Check-out
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: AppPadding.screenPadding,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(10),
@@ -187,9 +221,50 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("You haven't checked-in yet",
-                        style: TextStyle(color: Colors.red)),
+                        style: TextStyle(color: AppColors.red)),
                     SizedBox(height: 10),
-                    Text(""),SizedBox(height: 5,),
+                    // shar data  get checkin
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.alarm,
+                          color: AppColors.orange,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          checkInTime != null
+                              ? ": $checkInTime"
+                              : "No punch-in recorded yet",
+                          style:
+                              TextStyle(fontSize: 14, color: AppColors.orange),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          color: AppColors.red,
+                          size: 15,
+                        ),
+                        Text(
+                          "Location",
+                          style: TextStyle(
+                            color: AppColors.orange,
+                          ),
+                        )
+                      ],
+                    ),
+
+                    SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -206,10 +281,15 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
-                                  Icon(Icons.rotate_right, color: Colors.white),
+                                  Icon(
+                                    Icons.rotate_right,
+                                    color: AppColors.white,
+                                  ),
                                   SizedBox(width: 5),
                                   Text("Punch In",
-                                      style: TextStyle(color: Colors.white)),
+                                      style: TextStyle(
+                                        color: AppColors.white,
+                                      )),
                                 ],
                               ),
                             ),
@@ -226,17 +306,17 @@ class _HomePageState extends State<HomePage> {
                             width: screenWidth / 3,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey.shade300,
+                              color: AppColors.grey.shade300,
                             ),
                             child: Center(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
                                   Icon(Icons.rotate_right,
-                                      color: Colors.black54),
+                                      color: AppColors.black),
                                   SizedBox(width: 5),
                                   Text("Punch Out",
-                                      style: TextStyle(color: Colors.black54)),
+                                      style: TextStyle(color: AppColors.black)),
                                 ],
                               ),
                             ),
@@ -260,9 +340,13 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildOverviewCard("Presence", "20", Colors.green),
-                  buildOverviewCard("Absence", "03", Colors.red),
-                  buildOverviewCard("Leaves", "02", Colors.orange),
+                  buildOverviewCard("Presence", "20", AppColors.green),
+                  buildOverviewCard("Absence", "03", AppColors.red),
+                  buildOverviewCard(
+                    "Leaves",
+                    "02",
+                    AppColors.orange,
+                  ),
                 ],
               ),
               SizedBox(
@@ -310,230 +394,232 @@ class _HomePageState extends State<HomePage> {
 //         ),
 //       ),
 
-//       // Sort Row
-//       Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Row(
-//               children: [
-//                 const Text("Sort by: "),
-//                 radioItem(true, "Deadline"),
-//                 radioItem(false, "Project"),
-//               ],
-//             ),
-//             const Icon(Icons.tune),
-//           ],
-//         ),
-//       ),
+              // Sort Row
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Row(
+              //         children: [
+              //           const Text("Sort by: "),
+              //           radioItem(true, "Deadline"),
+              //           radioItem(false, "Project"),
+              //         ],
+              //       ),
+              //       const Icon(Icons.tune),
+              //     ],
+              //   ),
+              // ),
 
 //       // Tab Views
 //       SizedBox(
 //         height: 300,
 //         child: TabBarView(
 //           children: [
-//             TaskPage(),
-//             ExactTaskTrackerUI(),
-//             OngoingTaskListScreen(),
-//             SummaryScreen(),
+              // TaskPage(),
+              // ExactTaskTrackerUI(),
+              // OngoingTaskListScreen(),
+              // SummaryScreen(),
 //           ],
 //         ),
 //       ),
 //     ],
 //   ),
 // )
+//     
 
-DefaultTabController(
-  length: 4,
-  child: Column(
-    children: [
-      Container(height: 44,
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: TabBar(
-          isScrollable: false, // You can set to true if text overflows
-          indicator: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.grey,
-          indicatorSize: TabBarIndicatorSize.tab,
-          tabs: const [
-            Tab(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.calendar_month, size: 18),
-                    SizedBox(width: 6),
-                    Text("My Tasks", style: TextStyle(fontSize: 20)),
-                  ],
+              Container(
+                height: 50,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              ),
-            ),
-            Tab(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.hourglass_empty, size: 18),
-                    SizedBox(width: 6),
-                    Text("Task Tracker", style: TextStyle(fontSize: 20)),
-                  ],
-                ),
-              ),
-            ),
-            Tab(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.rotate_right_outlined, size: 18),
-                    SizedBox(width: 6),
-                    Text("Ongoing & \nPending Tasks", style: TextStyle(fontSize:26)),
-                  ],
-                ),
-              ),
-            ),
-            Tab(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.work, size: 18),
-                    SizedBox(width: 6),
-                    Text("Work Summary", style: TextStyle(fontSize: 20)),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(tabs.length, (index) {
+                      bool isSelected = _tabController.index == index;
 
-      // Sort Row
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const Text("Sort by: "),
-                radioItem(true, "Deadline"),
-                radioItem(false, "Project"),
-              ],
-            ),
-            const Icon(Icons.tune),
-          ],
-        ),
-      ),
+                      return Padding(
+                        padding: EdgeInsets.only(left: index == 0 ? 0 : 6),
+                        child: GestureDetector(
+                          onTap: () {
+                            _tabController.animateTo(index);
+                            setState(() {});
+                          },
+                          child: AnimatedContainer(
+                            height: MediaQuery.of(context).size.height / 10,
+                            width: MediaQuery.of(context).size.width / 2,
+                            duration: const Duration(milliseconds: 200),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color:
+                                  isSelected ? AppColors.blue : AppColors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: isSelected
+                                  ? null
+                                  : Border.all(color: Colors.grey.shade400),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  tabs[index]['icon'],
+                                  size: 18,
+                                  color:
+                                      isSelected ? Colors.white : Colors.black,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  tabs[index]['label'],
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ),
 
-      // Tab Views
-      SizedBox(
-        height: 300,
-        child: TabBarView(
-          children: [
-            TaskPage(),
-            ExactTaskTrackerUI(),
-            OngoingTaskListScreen(),
-            SummaryScreen(),
-          ],
-        ),
-      ),
-    ],
-  ),
-)
-,
+              // Sort Row
+
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Text("Sort by: "),
+                        radioItem(true, "Deadline"),
+                        radioItem(false, "Project"),
+                      ],
+                    ),
+                    const Icon(Icons.tune),
+                  ],
+                ),
+              ),
+              // Expanded Tab View
+              SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: const [
+                      TaskPage(),
+                      ExactTaskTrackerUI(),
+                      OngoingTaskListScreen(),
+                      SummaryScreen(),
+                    ],
+                  ),
+                ),
+              ),
+
               SizedBox(height: 20),
               Text("Dashboard",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               SizedBox(height: 10),
-             
 
               LayoutBuilder(
-  builder: (context, constraints) {
-    double screenWidth = constraints.maxWidth;
+                builder: (context, constraints) {
+                  double screenWidth = constraints.maxWidth;
 
-    return GridView.count(
-      crossAxisCount: 3, 
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-      childAspectRatio: screenWidth > 600 ? 1.3 : 1, // Adjust card shape
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      children: [
-        Card(color: Colors.white,
-          child: buildDashboardItem(
-            Icons.calendar_month_outlined,
-            Colors.green,
-            Colors.green[50]!,
-            "Attendance",
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => LeavePage()),
-            );
-          },
-          child: Card(color: Colors.white,
-            child: buildDashboardItem(
-              Icons.exit_to_app,
-              Colors.orange,
-              Colors.orange[100]!,
-              "Leaves",
-            ),
-          ),
-        ),
-        Card(color: Colors.white,
-          child: buildDashboardItem(
-            Icons.pie_chart,
-            Colors.deepPurple,
-            Colors.purple[100]!,
-            "Leave Status",
-          ),
-        ),
-        Card(color: Colors.white,
-          child: buildDashboardItem(
-            Icons.calendar_today,
-            Colors.blue,
-            Colors.blue[100]!,
-            "Holiday List",
-          ),
-        ),
-        Card(color: Colors.white,
-          child: buildDashboardItem(
-            Icons.receipt_long,
-            Colors.green,
-            Colors.green[100]!,
-            "Payslip",
-          ),
-        ),
-        Card(color: Colors.white,
-          child: buildDashboardItem(
-            Icons.assessment,
-            Colors.red,
-            Colors.red[100]!,
-            "Reports",
-          ),
-        ),
-      ],
-    );
-  },
-)
-
+                  return GridView.count(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: screenWidth > 600 ? 1.3 : 1,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AttendancePage(),
+                              ));
+                        },
+                        child: Card(
+                          color: AppColors.white,
+                          child: buildDashboardItem(
+                            Icons.calendar_month_outlined,
+                            AppColors.green,
+                            const Color.fromARGB(255, 188, 213, 191),
+                            "Attendance",
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LeavePage()),
+                          );
+                        },
+                        child: Card(
+                          color: AppColors.white,
+                          child: buildDashboardItem(
+                            Icons.exit_to_app,
+                            AppColors.orange,
+                            const Color.fromARGB(255, 231, 224, 215),
+                            "Leaves",
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: AppColors.white,
+                        child: buildDashboardItem(
+                          Icons.pie_chart,
+                          Colors.deepPurple,
+                          const Color.fromARGB(255, 216, 188, 223),
+                          "Leave Status",
+                        ),
+                      ),
+                      Card(
+                        color: AppColors.white,
+                        child: buildDashboardItem(
+                          Icons.calendar_today,
+                          AppColors.blue,
+                          const Color.fromARGB(255, 180, 204, 224),
+                          "Holiday List",
+                        ),
+                      ),
+                      Card(
+                        color: AppColors.white,
+                        child: buildDashboardItem(
+                          Icons.receipt_long,
+                          AppColors.green,
+                          const Color.fromARGB(255, 190, 237, 191),
+                          "Payslip",
+                        ),
+                      ),
+                      Card(
+                        color: AppColors.white,
+                        child: buildDashboardItem(
+                          Icons.assessment,
+                          AppColors.red,
+                          const Color.fromARGB(255, 205, 182, 184),
+                          "Reports",
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
         ),
@@ -576,15 +662,17 @@ DefaultTabController(
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child:
-                          const Icon(Icons.close, size: 24, color: Colors.grey),
+                      child: const Icon(Icons.close,
+                          size: 24, color: AppColors.grey),
                     ),
                   ],
                 ),
                 const Text("Select Punch -In Type",
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                        SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 const Text("Are you working from home or on site today?"),
                 const SizedBox(height: 20),
                 Row(
@@ -607,7 +695,7 @@ DefaultTabController(
                         width: MediaQuery.of(context).size.width / 3.4,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 1, color: Colors.grey),
+                          border: Border.all(width: 1, color: AppColors.grey),
                         ),
                         child: const Center(child: Text("On Site")),
                       ),
@@ -618,7 +706,7 @@ DefaultTabController(
                         // set value shared
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setString('punchInType', 'remote');
-                        // navigate 
+                        // navigate
                         //remote face verification
                         Navigator.pushReplacement(
                           context,
@@ -632,12 +720,11 @@ DefaultTabController(
                         height: 40,
                         width: MediaQuery.of(context).size.width / 3.4,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.blue,
-                        ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.blue),
                         child: const Center(
                             child: Text("Work from Home",
-                                style: TextStyle(color: Colors.white))),
+                                style: TextStyle(color: AppColors.white))),
                       ),
                     ),
                   ],
@@ -668,12 +755,12 @@ DefaultTabController(
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child:
-                        const Icon(Icons.close, size: 24, color: Colors.grey),
+                    child: const Icon(Icons.close,
+                        size: 24, color: AppColors.grey),
                   ),
                 ),
                 const Icon(Icons.warning_amber_rounded,
-                    color: Colors.orange, size: 50),
+                    color: AppColors.orange, size: 50),
                 const SizedBox(height: 10),
                 const Text(
                   "Do you really want to\ncheckout!",
@@ -681,7 +768,7 @@ DefaultTabController(
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.orange),
+                      color: AppColors.orange),
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -694,7 +781,7 @@ DefaultTabController(
                           height: 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 1, color: Colors.grey),
+                            border: Border.all(width: 1, color: AppColors.grey),
                           ),
                           child: const Center(child: Text("Update Task")),
                         ),
@@ -734,11 +821,11 @@ DefaultTabController(
                           height: 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue,
+                            color: AppColors.blue,
                           ),
                           child: const Center(
                             child: Text("Check Out",
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(color: AppColors.white)),
                           ),
                         ),
                       ),

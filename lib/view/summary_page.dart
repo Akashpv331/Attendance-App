@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 
 class SummaryScreen extends StatelessWidget {
   const SummaryScreen({super.key});
@@ -7,12 +8,12 @@ class SummaryScreen extends StatelessWidget {
   Widget buildSummaryCard(IconData icon, String title, String value) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
+        color: AppColors.white,
+        border: Border.all(color: AppColors.grey.shade300),
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
+            color: AppColors.black,
             blurRadius: 4,
             offset: Offset(2, 2),
           ),
@@ -22,7 +23,7 @@ class SummaryScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 40, color: Colors.blue),
+          Icon(icon, size: 40, color:AppColors.blue),
           const SizedBox(height: 10),
           Text(
             title,
@@ -51,7 +52,7 @@ class SummaryScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(12),
@@ -70,7 +71,7 @@ class SummaryScreen extends StatelessWidget {
                   mainAxisSpacing: 12,
                   childAspectRatio: .7,
                   shrinkWrap: true, 
-                  physics: const NeverScrollableScrollPhysics(), // ✅ Prevents nested scrolling
+                  physics: const NeverScrollableScrollPhysics(), 
                   children: items,
                 ),
               ),

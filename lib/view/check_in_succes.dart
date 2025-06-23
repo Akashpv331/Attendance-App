@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/view/Home_page.dart';
 
-// check_in success page
 class Check_in_FaceVerifiedSuccessScreen extends StatelessWidget {
   const Check_in_FaceVerifiedSuccessScreen({super.key});
+
+  Future<void> saveCheckInTime(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final now = DateTime.now();
+    final timeString =
+        "${now.day}-${now.month}-${now.year} ${TimeOfDay.now().format(context)}";
+    await prefs.setString('check in time', timeString);
+  }
 
   @override
   Widget build(BuildContext context) {
     final now = TimeOfDay.now();
+
+    saveCheckInTime(context);
 
     return Scaffold(
       body: Container(
@@ -19,8 +29,8 @@ class Check_in_FaceVerifiedSuccessScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.white, // Top: white
-              Colors.lightGreenAccent, // Bottom: green gradient
+              AppColors.white,
+              AppColors.insuccessbg,
             ],
           ),
         ),
@@ -36,26 +46,27 @@ class Check_in_FaceVerifiedSuccessScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 20),
               const Text(
                 "Punch Registered Successfully",
                 style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.green,
+                ),
               ),
               const SizedBox(height: 10),
               Text(
-                // time show
                 "at ${now.format(context)}",
                 style: const TextStyle(
-                  color: Colors.green,
+                  color: AppColors.green,
                   fontSize: 16,
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/view/Bottom_navigation.dart';
 import 'package:ziya_inter_project/view/ForgotPassword.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.amber),
+      theme: ThemeData(primaryColor: AppColors.primaryColor),
       debugShowCheckedModeBanner: false,
       routes: {
         "/": (context) => Signup(),

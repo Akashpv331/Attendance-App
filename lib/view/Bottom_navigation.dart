@@ -1,7 +1,5 @@
-
-
-
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/view/Home_page.dart';
 import 'package:ziya_inter_project/view/history.dart';
 import 'package:ziya_inter_project/view/leave_page.dart';
@@ -14,13 +12,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  final List<Widget> _screens = [HomePage(), Historypage(),Leavepage(), Profilepage()];
+  final List<Widget> _screens = [
+    HomePage(),
+    Historypage(),
+    Leavepage(),
+    Profilepage()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
-      
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -32,23 +33,26 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-              label: 'Home',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-              label: 'History',
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.arrow_circle_right_outlined),
-              label: 'Leave',
+            label: 'Leave',
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.person_3_sharp),
-              label: 'Person',
+            label: 'Person',
           ),
-        ],backgroundColor: Colors.white,
-        elevation: 4,selectedFontSize: 10,selectedItemColor: Colors.lightBlue,
-        unselectedItemColor: Colors.grey,
+        ],
+        backgroundColor: AppColors.backgroundColor,
+        elevation: 4,
+        selectedFontSize: 10,
+        selectedItemColor: AppColors.lightblue,
+        unselectedItemColor: AppColors.grey,
       ),
     );
   }

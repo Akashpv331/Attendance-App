@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 
 import 'package:ziya_inter_project/view/check_in_succes.dart';
 import 'package:ziya_inter_project/view/check_out_success.dart';
@@ -19,15 +19,11 @@ class OnSite_CenterFaceCaptureScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Top camera preview area (can be replaced with a real camera widget)
             Container(
               height: size.height * 0.65,
               width: double.infinity,
-              color: Colors.white,
-              // TODO: Insert camera widget here
+              color: AppColors.white,
             ),
-
-            // Bottom section
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -38,8 +34,8 @@ class OnSite_CenterFaceCaptureScreen extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.white,
-                      Color(0xFF2196F3), // Blue
+                      AppColors.white,
+                      AppColors.lightblue,
                     ],
                   ),
                 ),
@@ -51,33 +47,30 @@ class OnSite_CenterFaceCaptureScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: AppColors.black,
                       ),
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      "Point your face right at the box,\nthen take a photo",
+                      AppText.instruction,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                     ),
                     const SizedBox(height: 30),
-
-                    // Action buttons: flash, capture, flip
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // Camera icon (placeholder)
+                        // Camera icon
                         const CircleAvatar(
-                          backgroundColor: Colors.white,
+                          backgroundColor: AppColors.white,
                           child: Icon(Icons.camera_alt_rounded,
-                              color: Colors.black),
+                              color: AppColors.black),
                         ),
 
-                        // Capture button with InkWell for responsive tap
                         InkWell(
                           borderRadius: BorderRadius.circular(50),
                           onTap: () {
@@ -94,17 +87,17 @@ class OnSite_CenterFaceCaptureScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(20),
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.blue,
+                              color: AppColors.blue,
                             ),
                             child: const Icon(Icons.check,
-                                color: Colors.white, size: 32),
+                                color: AppColors.white, size: 32),
                           ),
                         ),
 
-                        // Flash icon (placeholder)
+                        // Flash icon
                         const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.flash_on, color: Colors.black),
+                          backgroundColor: AppColors.white,
+                          child: Icon(Icons.flash_on, color: AppColors.black),
                         ),
                       ],
                     ),

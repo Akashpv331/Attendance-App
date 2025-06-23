@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/view/Dashboard_page.dart';
 import 'package:ziya_inter_project/view/Home_page.dart';
 
-// leave page
 class LeavePage extends StatefulWidget {
   const LeavePage({super.key});
 
@@ -12,15 +14,43 @@ class LeavePage extends StatefulWidget {
 
 class _LeavePageState extends State<LeavePage> {
   TextEditingController employeeNameController = TextEditingController();
+  TextEditingController fromDateController = TextEditingController();
+  TextEditingController toDateController = TextEditingController();
 
   String? selectedLeaveOption;
 
   @override
+  void dispose() {
+    employeeNameController.dispose();
+    fromDateController.dispose();
+    toDateController.dispose();
+    super.dispose();
+  }
+
+  Future<void> pickDate(TextEditingController controller) async {
+    DateTime today = DateTime.now();
+    DateTime firstSelectableDate =
+        DateTime(today.year, today.month, today.day); 
+
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: firstSelectableDate,
+      firstDate: firstSelectableDate, 
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+      controller.text = formattedDate;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.backgroundColor,
         elevation: 0,
         automaticallyImplyLeading: false,
         titleSpacing: 12,
@@ -43,15 +73,16 @@ class _LeavePageState extends State<LeavePage> {
                   height: 36,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.search, color: Colors.black, size: 20),
+                      Icon(Icons.search, color: AppColors.black, size: 20),
                       SizedBox(width: 8),
                       Text("Search",
-                          style: TextStyle(color: Colors.black, fontSize: 14))
+                          style:
+                              TextStyle(color: AppColors.black, fontSize: 14))
                     ],
                   ),
                 ),
@@ -69,7 +100,7 @@ class _LeavePageState extends State<LeavePage> {
                   child: IconButton(
                     icon: const Icon(
                       Icons.notifications,
-                      color: Colors.white,
+                      color: AppColors.white,
                       size: 16,
                     ),
                     onPressed: () {},
@@ -109,6 +140,12 @@ class _LeavePageState extends State<LeavePage> {
             Row(
               children: [
                 InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LeaveDashboardPage()));
+                    },
                     child: Row(
                       children: const [
                         Icon(Icons.dashboard, color: Colors.blue),
@@ -118,20 +155,15 @@ class _LeavePageState extends State<LeavePage> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue)),
                       ],
-                    ),
+                    )),
+                const SizedBox(width: 10),
+                InkWell(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LeaveDashboardPage(),
-                          ));
+                              builder: (context) => LeavePage()));
                     },
-                    splashColor: Colors.blue,
-                    highlightColor: Colors.blue),
-                SizedBox(
-                  width: 10,
-                ),
-                InkWell(
                     child: Row(
                       children: const [
                         Icon(Icons.calendar_today_outlined, color: Colors.grey),
@@ -141,18 +173,10 @@ class _LeavePageState extends State<LeavePage> {
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey)),
                       ],
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LeavePage(),
-                          ));
-                    },
-                    splashColor: Colors.blue,
-                    highlightColor: Colors.blue),
+                    )),
               ],
-            ),SizedBox(height: 10,),
+            ),
+            const SizedBox(height: 10),
             const Text("Apply for Leave",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
@@ -180,9 +204,11 @@ class _LeavePageState extends State<LeavePage> {
                       const Text("From"),
                       const SizedBox(height: 6),
                       customTextField(
+                        controller: fromDateController,
                         label: "From Date",
                         prefixIcon: Icons.calendar_month_rounded,
-                      )
+                        onTap: () => pickDate(fromDateController),
+                      ),
                     ],
                   ),
                 ),
@@ -194,9 +220,11 @@ class _LeavePageState extends State<LeavePage> {
                       const Text("To"),
                       const SizedBox(height: 6),
                       customTextField(
+                        controller: toDateController,
                         label: "To Date",
                         prefixIcon: Icons.calendar_month_rounded,
-                      )
+                        onTap: () => pickDate(toDateController),
+                      ),
                     ],
                   ),
                 ),
@@ -217,7 +245,7 @@ class _LeavePageState extends State<LeavePage> {
                 Expanded(
                   child: Material(
                     elevation: 2,
-                    color: Colors.white,
+                    color: AppColors.white,
                     child: DropdownButtonFormField<String>(
                       value: selectedLeaveOption,
                       decoration: InputDecoration(
@@ -252,7 +280,7 @@ class _LeavePageState extends State<LeavePage> {
             const SizedBox(height: 6),
             Material(
               elevation: 2,
-              color: Colors.white,
+              color: AppColors.white,
               child: TextField(
                 maxLines: 4,
                 decoration: InputDecoration(
@@ -261,7 +289,7 @@ class _LeavePageState extends State<LeavePage> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
-                  fillColor: Colors.white,
+                  fillColor: AppColors.white,
                   filled: true,
                 ),
               ),
@@ -282,12 +310,12 @@ class _LeavePageState extends State<LeavePage> {
                   ),
                 ),
                 onPressed: () {
-                  //home
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 child: const Text(
                   "Submit",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                  style: TextStyle(fontSize: 16, color: AppColors.white),
                 ),
               ),
             ),
@@ -320,7 +348,7 @@ class _LeavePageState extends State<LeavePage> {
             borderSide: BorderSide.none,
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: AppColors.white,
         ),
       ),
     );

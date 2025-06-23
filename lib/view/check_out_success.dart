@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_inter_project/constant/app_constants.dart';
 
 import 'package:ziya_inter_project/view/Home_page.dart';
 // check out screen
@@ -18,8 +19,8 @@ class Check_Out_FaceVerifiedSuccessScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.white, // Top white
-              Colors.orangeAccent, // Bottom  green gradient
+             AppColors.white, // Top white
+              AppColors.outsuccessbg, // Bottom  green gradient
             ],
           ),
         ),
@@ -31,7 +32,7 @@ class Check_Out_FaceVerifiedSuccessScreen extends StatelessWidget {
                 child: const Icon(
                   Icons.check_circle,
                   size: 100,
-                  color: Colors.orangeAccent,
+                  color: AppColors.orangeAccent,
                 ),onTap: () {
                     Navigator.pushReplacement(
                       context,
@@ -46,7 +47,7 @@ class Check_Out_FaceVerifiedSuccessScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orangeAccent
+                  color: AppColors.orangeAccent
                 
                 ),
               ),
@@ -54,7 +55,7 @@ class Check_Out_FaceVerifiedSuccessScreen extends StatelessWidget {
               Text(// time show
                 "at ${now.format(context)}",
                 style: const TextStyle(
-                  color: Colors.orangeAccent,
+                  color: AppColors.orangeAccent,
                   fontSize: 16,
                 ),
               ),
