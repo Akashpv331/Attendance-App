@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/view/Attendance_page.dart';
+import 'package:ziya_inter_project/view/Holiday_page.dart';
 import 'package:ziya_inter_project/view/Leave%20_application.dart';
 import 'package:ziya_inter_project/view/My_task.dart';
 import 'package:ziya_inter_project/view/face_verification_onsite.dart';
@@ -589,13 +590,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           "Leave Status",
                         ),
                       ),
-                      Card(
-                        color: AppColors.white,
-                        child: buildDashboardItem(
-                          Icons.calendar_today,
-                          AppColors.blue,
-                          const Color.fromARGB(255, 180, 204, 224),
-                          "Holiday List",
+                      InkWell(onTap: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HolidayPage(),));
+                      },
+                        child: Card(
+                          color: AppColors.white,
+                          child: buildDashboardItem(
+                            Icons.calendar_today,
+                            AppColors.blue,
+                            const Color.fromARGB(255, 180, 204, 224),
+                            "Holiday List",
+                          ),
                         ),
                       ),
                       Card(

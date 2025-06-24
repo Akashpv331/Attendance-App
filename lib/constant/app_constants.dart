@@ -17,9 +17,10 @@ class AppColors {
   static const grey = Colors.grey;
   static const appbarbg1 = Color.fromARGB(255, 21, 55, 106); // appbar 1 clr
   static const appbarbg2 = Color(0xFF0A4D1F); // appbr 2 clr
-   static const lightblue = Colors.lightBlue;
-   static const orangeAccent = Colors.orangeAccent;
-    static const amber = Colors.amber;
+  static const lightblue = Colors.lightBlue;
+  static const orangeAccent = Colors.orangeAccent;
+  static const amber = Colors.amber;
+  static const yellow = Colors.yellow;
 }
 
 class AppText {
