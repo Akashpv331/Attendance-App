@@ -95,7 +95,7 @@ class _LeavePageState extends State<LeavePage> {
             children: [
               CircleAvatar(
                 radius: 13,
-                backgroundColor: Colors.lightBlue,
+                backgroundColor:AppColors.lightblue,
                 child: Center(
                   child: IconButton(
                     icon: const Icon(
@@ -114,7 +114,7 @@ class _LeavePageState extends State<LeavePage> {
                   width: 8,
                   height: 8,
                   decoration: const BoxDecoration(
-                    color: Colors.red,
+                    color:AppColors.red,
                     shape: BoxShape.circle,
                   ),
                 ),

@@ -237,6 +237,7 @@ class LeaveDashboardPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: const [
                         Expanded(
                             child: BarChartWidget(
@@ -465,7 +466,7 @@ class BarChartWidget extends StatelessWidget {
               width: barWidth,
               decoration: BoxDecoration(
                 color: color,
-                borderRadius: BorderRadius.circular(6),
+             
               ),
             ),
             const SizedBox(height: 6),

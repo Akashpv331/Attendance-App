@@ -408,7 +408,7 @@ void _hidePopup() {
                     ]),
                   ],
                 ),
-                const SizedBox(height: 20)
+                const SizedBox(height: 50)
               ],
             ),
           ),
@@ -477,7 +477,8 @@ void _hidePopup() {
         text,
         style: TextStyle(
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-          color: isHeader ? (color ?? AppColors.blue) : AppColors.grey.shade500,
+          color: isHeader ? (color ?? AppColors.blue) : AppColors.grey.shade800
+          ,
           fontSize: 13,
         ),
         textAlign: TextAlign.center,

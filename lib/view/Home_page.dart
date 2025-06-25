@@ -5,6 +5,7 @@ import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/view/Attendance_page.dart';
 import 'package:ziya_inter_project/view/Holiday_page.dart';
 import 'package:ziya_inter_project/view/Leave%20_application.dart';
+import 'package:ziya_inter_project/view/Leave_status_page.dart';
 import 'package:ziya_inter_project/view/My_task.dart';
 import 'package:ziya_inter_project/view/face_verification_onsite.dart';
 import 'package:ziya_inter_project/view/face_verification_remote.dart';
@@ -428,7 +429,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 //     ],
 //   ),
 // )
-//     
+//
 
               Container(
                 height: 50,
@@ -547,7 +548,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AttendancePage(),
@@ -565,7 +566,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LeavePage()),
@@ -581,18 +582,32 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      Card(
-                        color: AppColors.white,
-                        child: buildDashboardItem(
-                          Icons.pie_chart,
-                          Colors.deepPurple,
-                          const Color.fromARGB(255, 216, 188, 223),
-                          "Leave Status",
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LeaveStatusPage(),
+                              ));
+                        },
+                        child: Card(
+                          color: AppColors.white,
+                          child: buildDashboardItem(
+                            Icons.pie_chart,
+                            Colors.deepPurple,
+                            const Color.fromARGB(255, 216, 188, 223),
+                            "Leave Status",
+                          ),
                         ),
                       ),
-                      InkWell(onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HolidayPage(),));
-                      },
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HolidayPage(),
+                              ));
+                        },
                         child: Card(
                           color: AppColors.white,
                           child: buildDashboardItem(

@@ -6,7 +6,9 @@ class TaskPage extends StatelessWidget {
 
   Widget buildTaskItem(BuildContext context, String title, String description) {
     return Card(color: AppColors.white,
+    
       elevation: 3,
+      
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -63,7 +65,7 @@ class TaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: AppColors.backgroundColor,
     
       body: ListView(
         children: [
