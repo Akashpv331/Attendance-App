@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/Attendance_page.dart';
-import 'package:ziya_inter_project/view/Holiday_page.dart';
-import 'package:ziya_inter_project/view/Leave%20_application.dart';
-import 'package:ziya_inter_project/view/Leave_status_page.dart';
-import 'package:ziya_inter_project/view/My_task.dart';
-import 'package:ziya_inter_project/view/face_verification_onsite.dart';
-import 'package:ziya_inter_project/view/face_verification_remote.dart';
-import 'package:ziya_inter_project/view/on_going_page.dart';
-import 'package:ziya_inter_project/view/summary_page.dart';
-import 'package:ziya_inter_project/view/task_tracker.dart';
+import 'package:ziya_inter_project/view/screens/Attendance_page.dart';
+
+import 'package:ziya_inter_project/view/screens/Holiday_page.dart';
+import 'package:ziya_inter_project/view/screens/Leave%20_application.dart';
+import 'package:ziya_inter_project/view/screens/Leave_status_page.dart';
+import 'package:ziya_inter_project/view/screens/My_task.dart';
+import 'package:ziya_inter_project/view/screens/Payslip_page.dart';
+import 'package:ziya_inter_project/view/screens/Report_Page.dart';
+import 'package:ziya_inter_project/view/screens/face_verification_onsite.dart';
+import 'package:ziya_inter_project/view/screens/face_verification_remote.dart';
+import 'package:ziya_inter_project/view/screens/on_going_page.dart';
+import 'package:ziya_inter_project/view/screens/summary_page.dart';
+import 'package:ziya_inter_project/view/screens/task_tracker.dart';
+import 'package:ziya_inter_project/view/widget/Overview_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,29 +27,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late TabController _tabController;
   // overview widget
-  Widget buildOverviewCard(String title, String subtitle, Color color) {
-    return Expanded(
-      child: Card(
-        color: Colors.white,
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(title,
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold, color: color)),
-              SizedBox(height: 6),
-              Text(subtitle,
-                  style: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold, color: color)),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
 // widget dashboard
   Widget buildDashboardItem(
@@ -341,95 +322,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               //  overview widget
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildOverviewCard("Presence", "20", AppColors.green),
-                  buildOverviewCard("Absence", "03", AppColors.red),
-                  buildOverviewCard(
-                    "Leaves",
-                    "02",
-                    AppColors.orange,
-                  ),
+                children: const [
+                  DetailsCard(
+                      title: "Presence",
+                      subtitle: "20",
+                      color: AppColors.green),
+                  DetailsCard(
+                      title: "Absence", subtitle: "03", color: AppColors.red),
+                  DetailsCard(
+                      title: "Leaves", subtitle: "02", color: AppColors.orange),
                 ],
               ),
+
               SizedBox(
                 height: 10,
               ),
-              // Task Tabs
-//             DefaultTabController(
-//   length: 4,
-//   child: Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       Container(
-//         margin: const EdgeInsets.all(12),
-//         padding: const EdgeInsets.all(4),
-//         decoration: BoxDecoration(
-//           color: Colors.grey[200],
-//           borderRadius: BorderRadius.circular(12),
-//         ),
-//         child: TabBar(
-//           indicator: BoxDecoration(
-//             color: Colors.blue,
-//             borderRadius: BorderRadius.circular(10),
-//           ),
-//           labelColor: Colors.white,
-//           unselectedLabelColor: Colors.grey,
-//           indicatorSize: TabBarIndicatorSize.tab,
-//           tabs: const [
-//             Tab(
-//               icon: Icon(Icons.calendar_month),
-//               text: "My Tasks",
-//             ),
-//             Tab(
-//               icon: Icon(Icons.hourglass_empty),
-//               text: "Task Tracker",
-//             ),
-//             Tab(
-//               icon: Icon(Icons.rotate_right_outlined),
-//               text: "Ongoing & Pending",
-//             ),
-//             Tab(
-//               icon: Icon(Icons.work),
-//               text: "Work Summary",
-//             ),
-//           ],
-//         ),
-//       ),
-
-              // Sort Row
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Row(
-              //         children: [
-              //           const Text("Sort by: "),
-              //           radioItem(true, "Deadline"),
-              //           radioItem(false, "Project"),
-              //         ],
-              //       ),
-              //       const Icon(Icons.tune),
-              //     ],
-              //   ),
-              // ),
-
-//       // Tab Views
-//       SizedBox(
-//         height: 300,
-//         child: TabBarView(
-//           children: [
-              // TaskPage(),
-              // ExactTaskTrackerUI(),
-              // OngoingTaskListScreen(),
-              // SummaryScreen(),
-//           ],
-//         ),
-//       ),
-//     ],
-//   ),
-// )
-//
 
               Container(
                 height: 50,
@@ -513,7 +420,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              // Expanded Tab View
+
               SingleChildScrollView(
                 child: Container(
                   height: MediaQuery.of(context).size.height / 2,
@@ -618,22 +525,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      Card(
-                        color: AppColors.white,
-                        child: buildDashboardItem(
-                          Icons.receipt_long,
-                          AppColors.green,
-                          const Color.fromARGB(255, 190, 237, 191),
-                          "Payslip",
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PayslipScreen(),
+                              ));
+                        },
+                        child: Card(
+                          color: AppColors.white,
+                          child: buildDashboardItem(
+                            Icons.receipt_long,
+                            AppColors.green,
+                            const Color.fromARGB(255, 190, 237, 191),
+                            "Payslip",
+                          ),
                         ),
                       ),
-                      Card(
-                        color: AppColors.white,
-                        child: buildDashboardItem(
-                          Icons.assessment,
-                          AppColors.red,
-                          const Color.fromARGB(255, 205, 182, 184),
-                          "Reports",
+                      InkWell( onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ReportPage(),
+                              ));
+                        },
+                        child: Card(
+                          color: AppColors.white,
+                          child: buildDashboardItem(
+                            Icons.assessment,
+                            AppColors.red,
+                            const Color.fromARGB(255, 205, 182, 184),
+                            "Reports",
+                          ),
                         ),
                       ),
                     ],

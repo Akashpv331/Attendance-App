@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/Home_page.dart';
+import 'package:ziya_inter_project/view/screens/Home_page.dart';
+
 
 class Check_in_FaceVerifiedSuccessScreen extends StatelessWidget {
   const Check_in_FaceVerifiedSuccessScreen({super.key});

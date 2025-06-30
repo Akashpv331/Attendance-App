@@ -1,10 +1,12 @@
 
 
+
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/check_in_succes.dart';
-import 'package:ziya_inter_project/view/check_out_success.dart';
+import 'package:ziya_inter_project/view/screens/check_in_succes.dart';
+import 'package:ziya_inter_project/view/screens/check_out_success.dart';
 
 class CenterFaceCaptureScreen extends StatefulWidget {
   final bool isCheckIn;
@@ -19,6 +21,7 @@ class CenterFaceCaptureScreen extends StatefulWidget {
 class _CenterFaceCaptureScreenState extends State<CenterFaceCaptureScreen> {
   CameraController? cameraController;
   bool isCameraInitialized = false;
+  bool isCapturing = false;
 
   @override
   void initState() {
@@ -28,8 +31,7 @@ class _CenterFaceCaptureScreenState extends State<CenterFaceCaptureScreen> {
 
   Future<void> initializeCamera() async {
     final cameras = await availableCameras();
-    cameraController =
-        CameraController(cameras[1], ResolutionPreset.medium); 
+    cameraController = CameraController(cameras[1], ResolutionPreset.medium);
     await cameraController!.initialize();
     if (mounted) {
       setState(() => isCameraInitialized = true);
@@ -65,7 +67,8 @@ class _CenterFaceCaptureScreenState extends State<CenterFaceCaptureScreen> {
             Expanded(
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -103,24 +106,38 @@ class _CenterFaceCaptureScreenState extends State<CenterFaceCaptureScreen> {
                               color: AppColors.black),
                         ),
                         Material(
-                          color: Colors.transparent,
                           shape: const CircleBorder(),
                           child: InkWell(
                             customBorder: const CircleBorder(),
                             onTap: () async {
-                              if (cameraController != null &&
-                                cameraController!.value.isInitialized) {
-                                await cameraController!.takePicture();
-                              }
+                              if (isCapturing || !isCameraInitialized) return;
 
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => widget.isCheckIn
-                                      ? const Check_in_FaceVerifiedSuccessScreen()
-                                      : const Check_Out_FaceVerifiedSuccessScreen(),
-                                ),
-                              );
+                              setState(() => isCapturing = true);
+
+                              try {
+                                final image =
+                                    await cameraController!.takePicture();
+
+                                // You can print or use the image path here
+                                print("Captured image path: ${image.path}");
+
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => widget.isCheckIn
+                                        ? const Check_in_FaceVerifiedSuccessScreen()
+                                        : const Check_Out_FaceVerifiedSuccessScreen(),
+                                  ),
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Failed to capture image: $e")),
+                                );
+                              } finally {
+                                setState(() => isCapturing = false);
+                              }
                             },
                             child: Container(
                               padding: const EdgeInsets.all(20),
@@ -128,11 +145,18 @@ class _CenterFaceCaptureScreenState extends State<CenterFaceCaptureScreen> {
                                 shape: BoxShape.circle,
                                 color: AppColors.blue,
                               ),
-                              child: const Icon(
-                                Icons.check,
-                                color: AppColors.white,
-                                size: 32,
-                              ),
+                              child: isCapturing
+                                  ? const SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator(
+                                          color: AppColors.white, strokeWidth: 2),
+                                    )
+                                  : const Icon(
+                                      Icons.check,
+                                      color: AppColors.white,
+                                      size: 32,
+                                    ),
                             ),
                           ),
                         ),

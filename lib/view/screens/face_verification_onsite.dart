@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/center_remote.dart';
+import 'package:ziya_inter_project/view/screens/center_face_onsite.dart';
+import 'package:ziya_inter_project/view/screens/center_remote.dart';
+
 // on site  face verification
 class Onsite_FaceverificationScreen extends StatefulWidget {
   final bool isCheckIn;
@@ -27,7 +29,7 @@ class _Onsite_FaceverificationScreenState extends State<Onsite_FaceverificationS
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => CenterFaceCaptureScreen(
+        builder: (_) => OnSite_CenterFaceCaptureScreen(
           isCheckIn: widget.isCheckIn,
         ),
       ),
@@ -45,7 +47,7 @@ class _Onsite_FaceverificationScreenState extends State<Onsite_FaceverificationS
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // Title and subtitle
+           
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

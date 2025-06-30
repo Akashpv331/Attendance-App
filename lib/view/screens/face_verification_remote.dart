@@ -4,7 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/center_remote.dart';
+import 'package:ziya_inter_project/view/screens/center_remote.dart';
+
 
 // remote face verification
 class FaceverificationScreen extends StatefulWidget {
@@ -110,3 +111,4 @@ class _FaceverificationScreenState extends State<FaceverificationScreen> {
     );
   }
 }
+

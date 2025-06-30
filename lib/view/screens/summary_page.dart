@@ -11,13 +11,8 @@ class SummaryScreen extends StatelessWidget {
         color: AppColors.white,
         border: Border.all(color: AppColors.grey.shade300),
         borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.black,
-            blurRadius: 4,
-            offset: Offset(2, 2),
-          ),
-        ],
+       
+        
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -62,7 +57,7 @@ class SummaryScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color.fromARGB(255, 241, 238, 238)),
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
                 padding: const EdgeInsets.all(12),
                 child: GridView.count(

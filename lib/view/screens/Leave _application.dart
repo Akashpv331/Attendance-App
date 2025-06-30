@@ -1,9 +1,12 @@
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/Dashboard_page.dart';
-import 'package:ziya_inter_project/view/Home_page.dart';
+import 'package:ziya_inter_project/view/screens/Dashboard_page.dart';
+import 'package:ziya_inter_project/view/screens/Home_page.dart';
+import 'package:ziya_inter_project/view/widget/Appbar_widget.dart';
+import 'package:ziya_inter_project/view/widget/search_popup.dart';
 
 class LeavePage extends StatefulWidget {
   const LeavePage({super.key});
@@ -16,8 +19,33 @@ class _LeavePageState extends State<LeavePage> {
   TextEditingController employeeNameController = TextEditingController();
   TextEditingController fromDateController = TextEditingController();
   TextEditingController toDateController = TextEditingController();
+  TextEditingController filecontroller = TextEditingController();
 
   String? selectedLeaveOption;
+
+  Future<void> pickfile() async {
+    PermissionStatus status = await Permission.storage.request();
+    if (status.isGranted) {
+      try {
+        final result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
+        );
+
+        if (result != null && result.files.isNotEmpty) {
+          setState(() {
+            filecontroller.text = result.files.single.name;
+          });
+        }
+      } catch (e) {
+        debugPrint("File picking error: $e");
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Permission denied. Please enable access.")),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -29,13 +57,12 @@ class _LeavePageState extends State<LeavePage> {
 
   Future<void> pickDate(TextEditingController controller) async {
     DateTime today = DateTime.now();
-    DateTime firstSelectableDate =
-        DateTime(today.year, today.month, today.day); 
+    DateTime firstSelectableDate = DateTime(today.year, today.month, today.day);
 
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: firstSelectableDate,
-      firstDate: firstSelectableDate, 
+      firstDate: firstSelectableDate,
       lastDate: DateTime(2100),
     );
 
@@ -44,93 +71,30 @@ class _LeavePageState extends State<LeavePage> {
       controller.text = formattedDate;
     }
   }
+  OverlayEntry? _popupOverlay;
+
+void showTopPopup() {
+  _popupOverlay = OverlayEntry(
+    builder: (context) => PopupOverlayWidget(
+      onClose: hideTopPopup,
+    ),
+  );
+
+  Overlay.of(context).insert(_popupOverlay!);
+}
+
+void hideTopPopup() {
+  _popupOverlay?.remove();
+  _popupOverlay = null;
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        titleSpacing: 12,
-        title: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                "assets/logo_ziya.jpg",
-                height: 40,
-                width: 40,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Card(
-                elevation: 1,
-                child: Container(
-                  height: 36,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.search, color: AppColors.black, size: 20),
-                      SizedBox(width: 8),
-                      Text("Search",
-                          style:
-                              TextStyle(color: AppColors.black, fontSize: 14))
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: 13,
-                backgroundColor:AppColors.lightblue,
-                child: Center(
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.notifications,
-                      color: AppColors.white,
-                      size: 16,
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 2,
-                right: 4,
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: const BoxDecoration(
-                    color:AppColors.red,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 4),
-          const Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: CircleAvatar(
-              radius: 15,
-              backgroundImage: NetworkImage(
-                  'https://randomuser.me/api/portraits/men/32.jpg'),
-            ),
-          ),
-        ],
+      appBar: CustomAppBar(title: 'leave application',onSearchTap:  showTopPopup,
+        
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -159,10 +123,8 @@ class _LeavePageState extends State<LeavePage> {
                 const SizedBox(width: 10),
                 InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LeavePage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => LeavePage()));
                     },
                     child: Row(
                       children: const [
@@ -297,7 +259,13 @@ class _LeavePageState extends State<LeavePage> {
             const SizedBox(height: 16),
             const Text("Attachment"),
             const SizedBox(height: 6),
-            customTextField(label: "Attachment (optional)"),
+            customTextField(
+                controller: filecontroller,
+                onTap: () async {
+                  await Future.delayed(Duration(milliseconds: 100));
+                  pickfile();
+                },
+                label: "Attachment (optional)"),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,

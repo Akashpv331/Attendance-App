@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
+import 'package:ziya_inter_project/view/screens/check_in_succes.dart';
+import 'package:ziya_inter_project/view/screens/check_out_success.dart';
 
-import 'package:ziya_inter_project/view/check_in_succes.dart';
-import 'package:ziya_inter_project/view/check_out_success.dart';
+
 
 // Onsite face capture screen
 class OnSite_CenterFaceCaptureScreen extends StatelessWidget {

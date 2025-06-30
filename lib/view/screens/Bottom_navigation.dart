@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/Home_page.dart';
-import 'package:ziya_inter_project/view/history.dart';
-import 'package:ziya_inter_project/view/leave_page.dart';
-import 'package:ziya_inter_project/view/profile.dart';
+import 'package:ziya_inter_project/view/screens/Home_page.dart';
+import 'package:ziya_inter_project/view/screens/history.dart';
+import 'package:ziya_inter_project/view/screens/leave_page.dart';
+import 'package:ziya_inter_project/view/screens/profile.dart';
+
 
 class MyHomePage extends StatefulWidget {
   @override

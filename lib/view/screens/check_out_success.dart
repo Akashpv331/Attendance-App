@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
+import 'package:ziya_inter_project/view/screens/Home_page.dart';
 
-import 'package:ziya_inter_project/view/Home_page.dart';
+
 // check out screen
 class Check_Out_FaceVerifiedSuccessScreen extends StatelessWidget {
   const Check_Out_FaceVerifiedSuccessScreen({super.key});

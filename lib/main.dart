@@ -1,13 +1,13 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
-import 'package:ziya_inter_project/view/Bottom_navigation.dart';
-import 'package:ziya_inter_project/view/ForgotPassword.dart';
 
-import 'package:ziya_inter_project/view/Login.dart';
-import 'package:ziya_inter_project/view/Singnup.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ziya_inter_project/view/screens/Bottom_navigation.dart';
+import 'package:ziya_inter_project/view/screens/ForgotPassword.dart';
+import 'package:ziya_inter_project/view/screens/Login.dart';
+import 'package:ziya_inter_project/view/screens/Singnup.dart';
 late List<CameraDescription> cameras;
 
 Future<void> main() async {

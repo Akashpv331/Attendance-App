@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/controller/auth_service.dart';
-import 'package:ziya_inter_project/view/Bottom_navigation.dart';
-import 'package:ziya_inter_project/view/ForgotPassword.dart';
+import 'package:ziya_inter_project/view/screens/Bottom_navigation.dart';
+import 'package:ziya_inter_project/view/screens/ForgotPassword.dart';
+import 'package:ziya_inter_project/view/screens/Singnup.dart';
 
-import 'package:ziya_inter_project/view/Singnup.dart';
 
 // Login page
 class Login extends StatefulWidget {

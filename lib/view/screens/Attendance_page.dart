@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
+import 'package:ziya_inter_project/view/widget/Overview_widget.dart';
+import 'package:ziya_inter_project/view/widget/calendar_widget.dart';
 
 class AttendancePage extends StatefulWidget {
   const AttendancePage({super.key});
@@ -120,56 +122,71 @@ class _AttendancePageState extends State<AttendancePage> {
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: TableCalendar(
-                    firstDay: DateTime.utc(2020, 1, 1),
-                    lastDay: DateTime.utc(2030, 12, 31),
-                    focusedDay: _focusedDay,
-                    calendarFormat: CalendarFormat.month,
-                    headerVisible: false,
-                    selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                    },
-                    onPageChanged: (focusedDay) {
-                      _focusedDay = focusedDay;
-                    },
-                    calendarStyle: const CalendarStyle(
-                      isTodayHighlighted: false,
-                      outsideDaysVisible: false,
-                    ),
-                    daysOfWeekStyle: const DaysOfWeekStyle(
-                      weekendStyle: TextStyle(color: AppColors.red),
-                      weekdayStyle: TextStyle(color: AppColors.black),
-                    ),
-                    calendarBuilders: CalendarBuilders(
-                      defaultBuilder: (context, day, _) {
-                        final status = statusDates[
-                            DateTime.utc(day.year, day.month, day.day)];
-                        if (status != null) {
-                          return Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: getStatusColor(status),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              '${day.day}',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13),
-                            ),
-                          );
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
+                  // child: TableCalendar(
+                  //   firstDay: DateTime.utc(2020, 1, 1),
+                  //   lastDay: DateTime.utc(2030, 12, 31),
+                  //   focusedDay: _focusedDay,
+                  //   calendarFormat: CalendarFormat.month,
+                  //   headerVisible: false,
+                  //   selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                  //   onDaySelected: (selectedDay, focusedDay) {
+                  //     setState(() {
+                  //       _selectedDay = selectedDay;
+                  //       _focusedDay = focusedDay;
+                  //     });
+                  //   },
+                  //   onPageChanged: (focusedDay) {
+                  //     _focusedDay = focusedDay;
+                  //   },
+                  //   calendarStyle: const CalendarStyle(
+                  //     isTodayHighlighted: false,
+                  //     outsideDaysVisible: false,
+                  //   ),
+                  //   daysOfWeekStyle: const DaysOfWeekStyle(
+                  //     weekendStyle: TextStyle(color: AppColors.red),
+                  //     weekdayStyle: TextStyle(color: AppColors.black),
+                  //   ),
+                  //   calendarBuilders: CalendarBuilders(
+                  //     defaultBuilder: (context, day, _) {
+                  //       final status = statusDates[
+                  //           DateTime.utc(day.year, day.month, day.day)];
+                  //       if (status != null) {
+                  //         return Container(
+                  //           width: 30,
+                  //           height: 30,
+                  //           decoration: BoxDecoration(
+                  //             color: getStatusColor(status),
+                  //             shape: BoxShape.circle,
+                  //           ),
+                  //           alignment: Alignment.center,
+                  //           child: Text(
+                  //             '${day.day}',
+                  //             style: const TextStyle(
+                  //                 color: Colors.white,
+                  //                 fontWeight: FontWeight.bold,
+                  //                 fontSize: 13),
+                  //           ),
+                  //         );
+                  //       }
+                  //       return null;
+                  //     },
+                  //   ),
+                  // ),
+
+             child:      CustomCalendar(
+  focusedDay: _focusedDay,
+  onDaySelected: (selectedDay) {
+    setState(() {
+      _selectedDay = selectedDay;
+      _focusedDay = selectedDay;
+    });
+  },
+  markedDates: statusDates,
+  showHeader: false,
+  useCircle: true,
+  type: "status",
+),
+
                 ),
               ),
               const SizedBox(height: 10),
@@ -196,18 +213,20 @@ class _AttendancePageState extends State<AttendancePage> {
                         ],
                       ),
                       const SizedBox(height: 12),
-                      Row(
-                        //detail
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          buildDetailsCard("Presence", "20", AppColors.green),
-                          buildDetailsCard("Absence", "03", AppColors.red),
-                          buildDetailsCard("Leaves", "02", AppColors.orange),
-                          buildDetailsCard("Late", "06", AppColors.blue),
-                        ],
-                      ),
+                     
+
+                                Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: const [
+    DetailsCard(title: "Presence", subtitle: "20", color: AppColors.green),
+    DetailsCard(title: "Absence", subtitle: "03", color: AppColors.red),
+    DetailsCard(title: "Leaves", subtitle: "02", color: AppColors.orange),
+     DetailsCard(title: "Late", subtitle: "06", color: AppColors.blue),
+   
+  ],
+),
                       const SizedBox(height: 20),
-// chart
+
                       Container(
                         height: MediaQuery.of(context).size.height / 3,
                         width: double.infinity,
@@ -215,10 +234,10 @@ class _AttendancePageState extends State<AttendancePage> {
                           dataMap: getPieChart,
                           chartRadius: MediaQuery.of(context).size.width / 2.2,
                           colorList: [
-                            Colors.green,
-                            Colors.red,
-                            Colors.orange,
-                            Colors.blue,
+                          AppColors.green,
+                            AppColors.red,
+                            AppColors.orange,
+                            AppColors.blue,
                           ],
                           chartType: ChartType.ring,
                           ringStrokeWidth: 90,
@@ -424,32 +443,6 @@ class _AttendancePageState extends State<AttendancePage> {
     );
   }
 
-  // Overview card widget
-  Widget buildDetailsCard(String title, String subtitle, Color color) {
-    return Expanded(
-      child: Card(
-        color: AppColors.white,
-        elevation: 1,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.bold, color: color),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                subtitle,
-                style: TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold, color: color),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+ 
+ 
 }

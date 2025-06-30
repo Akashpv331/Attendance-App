@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
 import 'package:ziya_inter_project/controller/auth_service.dart';
-import 'package:ziya_inter_project/view/Bottom_navigation.dart';
+import 'package:ziya_inter_project/view/screens/Bottom_navigation.dart';
+import 'package:ziya_inter_project/view/screens/Login.dart';
 
-import 'package:ziya_inter_project/view/Login.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
