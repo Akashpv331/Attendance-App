@@ -82,6 +82,8 @@ flutter:
     - "assets/face verification animation.json"
     - "assets/Qr code animation.json.json"
     - "assets/logo_ziya.jpg"
+    - "assets/start image.jpg"
+    - "assets/profilebg.png"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

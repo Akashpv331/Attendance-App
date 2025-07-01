@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     Historypage(),
     Leavepage(),
-    Profilepage()
+    ProfileScreen()
   ];
 
   @override
@@ -44,13 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.arrow_circle_right_outlined),
             label: 'Leave',
           ),
-          BottomNavigationBarItem(
+          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor,
             icon: Icon(Icons.person_3_sharp),
             label: 'Person',
           ),
         ],
         backgroundColor: AppColors.backgroundColor,
-        elevation: 4,
+        elevation: 6,
         selectedFontSize: 10,
         selectedItemColor: AppColors.lightblue,
         unselectedItemColor: AppColors.grey,

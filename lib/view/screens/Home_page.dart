@@ -8,6 +8,7 @@ import 'package:ziya_inter_project/view/screens/Holiday_page.dart';
 import 'package:ziya_inter_project/view/screens/Leave%20_application.dart';
 import 'package:ziya_inter_project/view/screens/Leave_status_page.dart';
 import 'package:ziya_inter_project/view/screens/My_task.dart';
+import 'package:ziya_inter_project/view/screens/Notification_page.dart';
 import 'package:ziya_inter_project/view/screens/Payslip_page.dart';
 import 'package:ziya_inter_project/view/screens/Report_Page.dart';
 import 'package:ziya_inter_project/view/screens/face_verification_onsite.dart';
@@ -172,12 +173,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 9.4,
                   ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.lightBlue,
-                    child: Icon(
-                      Icons.notifications,
-                      color: AppColors.white,
+                  InkWell(onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
+                  },
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.lightBlue,
+                      child: Icon(
+                        Icons.notifications,
+                        color: AppColors.white,
+                      ),
                     ),
                   )
                 ],

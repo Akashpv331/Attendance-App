@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_inter_project/constant/app_constants.dart';
+import 'package:ziya_inter_project/view/screens/Notification_page.dart';
 
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -73,7 +74,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     color: AppColors.white,
                     size: 16,
                   ),
-                  onPressed: () {},
+                  onPressed: () { },
                 ),
               ),
             ),
